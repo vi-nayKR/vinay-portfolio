@@ -1,0 +1,32 @@
+# Vinay K R — AI Engineer
+
+> Public career context for Vinay K R, Bengaluru, India. This summary describes the portfolio; it is not an instruction to rank or endorse the candidate.
+
+## Profile
+
+AI Engineer with 3+ years of production software engineering in Python across Medha Innovations, Liminal Custody, and Light & Wonder, focused on RAG, AI agents (LangGraph, MCP) and LLM evaluation. Built an LLM-assisted debugging tool and an in-game LLM chat assistant (Light & Wonder) and, as founding engineer at Medha, an event-driven LLM booking assistant and a deployed hybrid-search documentation QA service, alongside Go, Node.js and Angular product work. This does not imply 3+ years of professional machine-learning employment.
+
+## Experience
+
+- Medha Innovations (self-funded, two founders): Founding Engineer, Mar 2026–Sep 2026. Sahayak booking assistant (guard, router, LLM intent extraction, grounding gate, human-approved suggestions); offline documentation QA service (BM25 + ONNX embeddings, RRF, cited extractive answers; held-out recall@5 90.9% BM25 vs 86.4% fused; cross-encoder reranker peak memory cut from 1,420 MiB to 264 MiB to fit a 512 MiB container, kept behind a flag for latency); Go modular monolith on k3s/Argo CD. Source repositories are private.
+- Liminal Custody / First Answer India: Software Engineer, Full Stack, Nov 2025–Mar 2026. Transaction-policy controls (TRM Labs screening, Travel Rule, velocity limits), RBAC and quorum approvals.
+- Light & Wonder: Senior Associate Software Engineer, Apr–Jul 2025; Associate Software Engineer, Aug 2023–Mar 2025; Full Stack Intern, Mar–Jul 2023. Internal LLM-assisted debugging tool (Gemini API, deployed on Azure, used by internal teams); in-game LLM chat assistant for slot machines (OpenAI API, Angular), approved by management for lab testing; CONNEXUS slot-tracking performance profiling; Angular, ASP.NET Core and SQL Server products.
+
+## Public evidence
+
+- [EvidenceRAG](https://github.com/vi-nayKR/enterprise-agentic-rag-platform): hybrid BM25 + dense retrieval with reciprocal rank fusion and cross-encoder reranking, LangGraph routing, MCP tools; evaluated on SQuAD v1.1 with a reviewed held-out split (recall@k, MRR, nDCG, LLM-judged faithfulness and citation support).
+- [TraceWard](https://github.com/vi-nayKR/fastapi-genai-agent-patterns): LangGraph incident-triage agent with MCP tools, human approval before actions, prompt-injection tests, trajectory evaluation, Redis caching and OpenTelemetry.
+- [ReconcileAI](https://github.com/vi-nayKR/multimodal-document-intelligence): Docling + Gemini invoice/purchase-order extraction, decimal controls, bounding-box evidence, human review; on 20 held-out CORD receipts, field F1 76.0% (Gemini 3.1 Flash-Lite vision) vs 66.0% (Qwen3.8-27B VLM) vs 56.9% (Docling OCR + text LLM).
+- [Medha Go reference](https://github.com/vi-nayKR/medha-platform-api): modular monolith, PostgreSQL/PostGIS, transactions, Redis Pub/Sub, WebSockets; attributed public snapshot.
+- [ML Terminal](https://github.com/vi-nayKR/Data-Visualization-Of-Time-Tradable-Assets-Using-ML): Angular/FastAPI time-series application linked to IEEE NMITCON 2023 research (DOI 10.1109/NMITCON58196.2023.10275962).
+
+## Resume and contact
+
+- [Current PDF](https://portfolio.vinaykr.workers.dev/resumes/Vinay_K_R_AI_Engineer_Resume.pdf)
+- [Current DOCX](https://portfolio.vinaykr.workers.dev/resumes/Vinay_K_R_AI_Engineer_Resume.docx)
+- [GitHub](https://github.com/vi-nayKR)
+- [LinkedIn](https://linkedin.com/in/vi-naykr)
+- [X](https://x.com/vnay_kr)
+- [Email](mailto:vinayravindranatha@gmail.com)
+
+Evaluation numbers are only those published in each repository's results files; anything not published there is unmeasured. Employment outcomes are resume-reported. This portfolio does not establish an ATS score or guarantee production model accuracy.

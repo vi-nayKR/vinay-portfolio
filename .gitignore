@@ -1,0 +1,23 @@
+# dependencies and build output
+node_modules
+dist
+.wrangler
+
+# test artefacts
+scripts/screenshots
+
+# local env / secrets
+.env
+.env.*
+*.local
+
+# logs
+*.log
+
+# editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+~$*

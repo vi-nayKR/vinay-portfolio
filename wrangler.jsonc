@@ -1,0 +1,13 @@
+{
+  // Cloudflare Workers static-assets site. `npm run deploy` builds and publishes dist/.
+  // Name "portfolio" on the vinaykr account -> https://portfolio.vinaykr.workers.dev
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "compatibility_date": "2026-10-07",
+  "assets": {
+    "directory": "./dist",
+    // Hash-routed single-page app: unknown paths fall back to index.html
+    "not_found_handling": "single-page-application"
+  },
+  "observability": { "enabled": true }
+}
