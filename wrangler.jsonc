@@ -3,6 +3,7 @@
   // Name "portfolio" on the vinaykr account -> https://portfolio.vinaykr.workers.dev
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "portfolio",
+  "account_id": "a5f4a72257a69645e159e8f769e4e52c",
   "compatibility_date": "2026-10-07",
   "assets": {
     "directory": "./dist",
