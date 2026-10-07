@@ -1,4 +1,5 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { soundService } from '../services/soundService.js';
 
 const desktopTabs = [
   { id: 'home', label: 'Home' },
@@ -87,10 +88,20 @@ export default function Navbar({
   themeMenuOpen,
   onToggleThemeMenu,
 }) {
-  const themeId = currentTheme?.id || 'aurora';
+  const themeId = currentTheme?.id || 'light';
   const isContactActive = activeTab === 'contact';
   const navRef = useRef(null);
   const themeContainerRef = useRef(null);
+  const [soundActive, setSoundActive] = useState(() => soundService.isEnabled());
+
+  useEffect(() => {
+    return soundService.subscribe((enabled) => setSoundActive(enabled));
+  }, []);
+
+  const handleSoundToggle = () => {
+    const next = soundService.toggleSound();
+    setSoundActive(next);
+  };
 
   // Close menus on click outside or Escape key
   useEffect(() => {
@@ -199,6 +210,30 @@ export default function Navbar({
 
         {/* Right side actions */}
         <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Sound Toggle Button */}
+          <button
+            onClick={handleSoundToggle}
+            className="p-1.5 sm:p-2 rounded-xl border transition-all duration-200 hover:scale-105 cursor-pointer text-xs font-mono"
+            style={{
+              borderColor: soundActive ? 'var(--accent)' : 'var(--border-color)',
+              color: soundActive ? 'var(--accent)' : 'var(--text-muted)',
+              background: 'color-mix(in srgb, var(--bg-surface) 75%, transparent)',
+            }}
+            title={soundActive ? 'Sound Effects Enabled (Click to Mute)' : 'Sound Effects Muted (Click to Enable)'}
+            aria-label={soundActive ? 'Mute sound effects' : 'Enable sound effects'}
+          >
+            {soundActive ? (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+              </svg>
+            )}
+          </button>
+
           {/* Theme selector */}
           <div ref={themeContainerRef} className="relative">
             <button
@@ -212,7 +247,7 @@ export default function Navbar({
               }}
               aria-label="Change theme"
               aria-expanded={themeMenuOpen}
-              title={`Theme: ${currentTheme?.label || 'Aurora'} (click to change)`}
+              title={`Theme: ${currentTheme?.label || 'Light'} (click to change)`}
             >
               <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm-4 4a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm8 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm-5.5 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
@@ -253,6 +288,7 @@ export default function Navbar({
                     return (
                       <button
                         key={t.id}
+                        data-theme-id={t.id}
                         onClick={() => {
                           onThemeChange(t.id);
                           onToggleThemeMenu(false);
@@ -370,6 +406,22 @@ export default function Navbar({
                 </button>
               );
             })}
+          </div>
+
+          <div className="flex items-center gap-2 pt-2 mt-2 border-t" style={{ borderColor: 'var(--border-color)' }}>
+            <button
+              onClick={handleSoundToggle}
+              className="w-full py-2 px-3 rounded-xl text-xs font-mono border flex items-center justify-center gap-2 cursor-pointer"
+              style={{
+                borderColor: soundActive ? 'var(--accent)' : 'var(--border-color)',
+                color: soundActive ? 'var(--accent)' : 'var(--text-muted)',
+                background: 'var(--border-subtle)',
+              }}
+              title={soundActive ? 'Sound Effects Enabled (Click to Mute)' : 'Sound Effects Muted (Click to Enable)'}
+              aria-label={soundActive ? 'Mute sound effects' : 'Enable sound effects'}
+            >
+              {soundActive ? '🔊 Sound On (Click to Mute)' : '🔇 Sound Muted (Click to Enable)'}
+            </button>
           </div>
         </div>
       )}

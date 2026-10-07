@@ -275,30 +275,63 @@ async function runProductionTestSuite() {
       }
     }
 
-    // Theme Switcher Full Cycle Check (Aurora -> Neon -> Arctic -> Light -> Void -> Aurora)
+    // Theme Switcher Full Cycle Check
     if (vp.name === 'desktop-1440x900') {
       console.log('  Testing Full Theme Switcher Cycle...');
       const themeBtn = page.locator('button[aria-label="Change theme"]');
       const themeSequence = [
-        { name: 'Neon', cls: 'theme-neon' },
-        { name: 'Arctic', cls: 'theme-arctic' },
-        { name: 'Light', cls: 'theme-light' },
-        { name: 'Void', cls: 'theme-void' },
-        { name: 'Aurora', cls: 'theme-aurora' },
+        { id: 'neon', name: 'Neon', cls: 'theme-neon' },
+        { id: 'arctic', name: 'Arctic', cls: 'theme-arctic' },
+        { id: 'void', name: 'Void', cls: 'theme-void' },
+        { id: 'aurora', name: 'Aurora', cls: 'theme-aurora' },
+        { id: 'light', name: 'Light', cls: 'theme-light' },
       ];
 
       for (const t of themeSequence) {
         await themeBtn.click();
         await page.waitForTimeout(100);
-        await page.locator(`button:has-text("${t.name}")`).click();
+        await page.locator(`button[data-theme-id="${t.id}"]`).click();
         await page.waitForTimeout(150);
         const hasClass = await page.evaluate((cls) => document.documentElement.classList.contains(cls), t.cls);
         const storageVal = await page.evaluate(() => localStorage.getItem('theme'));
-        if (hasClass && storageVal === t.cls.replace('theme-', '')) {
+        if (hasClass && storageVal === t.id) {
           console.log(`  ✓ Theme ${t.name}: correctly applied class .${t.cls} and persisted`);
         } else {
           failedTests.push(`Theme ${t.name} failed: class=${hasClass}, localStorage=${storageVal}`);
         }
+      }
+
+      // Check hero profile background in Light theme
+      await page.goto('http://localhost:4174/#home', { waitUntil: 'networkidle' });
+      const avatarImg = page.locator('#home img[alt="Vinay K R"]:visible').first();
+      await avatarImg.waitFor({ timeout: 3000 });
+      const avatarSrc = await avatarImg.getAttribute('src');
+      const avatarBg = await avatarImg.evaluate((img) => window.getComputedStyle(img.parentElement).backgroundColor);
+      if (avatarBg === 'rgb(255, 255, 255)' && avatarSrc.includes('avatar-light.webp')) {
+        console.log(`  ✓ Hero profile background is pure white in Light theme (${avatarBg}, src=${avatarSrc})`);
+      } else {
+        failedTests.push(`Hero profile background is not white in Light theme (got ${avatarBg}, src=${avatarSrc})`);
+      }
+
+      // Sound Toggle Check (turned on by default, mute/unmute icon toggles)
+      console.log('  Testing Sound Toggle Button...');
+      const muteBtn = page.locator('button[aria-label="Mute sound effects"]').first();
+      const isSoundOn = await muteBtn.isVisible();
+      if (isSoundOn) {
+        console.log(`  ✓ Sound enabled by default (Mute icon visible)`);
+        await muteBtn.click();
+        await page.waitForTimeout(100);
+        const unmuteBtn = page.locator('button[aria-label="Enable sound effects"]').first();
+        const isMuted = await unmuteBtn.isVisible();
+        if (isMuted) {
+          console.log(`  ✓ Sound successfully muted (Unmute icon visible)`);
+          await unmuteBtn.click(); // restore enabled
+          await page.waitForTimeout(100);
+        } else {
+          failedTests.push('Sound toggle failed to switch to muted icon');
+        }
+      } else {
+        failedTests.push('Sound not enabled by default');
       }
     }
 

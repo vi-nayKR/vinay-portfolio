@@ -11,23 +11,23 @@ import ResearchSection from './components/ResearchSection.jsx';
 import ContactSection from './components/ContactSection.jsx';
 
 const THEMES = [
-  { id: 'aurora',  label: 'Aurora',   icon: '✦', dot: '#22d3ee' },
-  { id: 'void',    label: 'Void',     icon: '☀', dot: '#ff6b00' },
-  { id: 'neon',    label: 'Neon',     icon: '◈', dot: '#ff2e9a' },
-  { id: 'arctic',  label: 'Arctic',   icon: '❄', dot: '#00d4ff' },
-  { id: 'light',   label: 'Light',    icon: '☾', dot: '#6366f1' },
+  { id: 'light',     label: 'Light',   icon: '☼', dot: '#2563eb' },
+  { id: 'aurora',    label: 'Aurora',  icon: '✦', dot: '#22d3ee' },
+  { id: 'void',      label: 'Void',    icon: '☀', dot: '#ff6b00' },
+  { id: 'neon',      label: 'Neon',    icon: '◈', dot: '#ff2e9a' },
+  { id: 'arctic',    label: 'Arctic',  icon: '❄', dot: '#00d4ff' },
 ];
 
-function SectionRenderer({ id, onNavigate }) {
+function SectionRenderer({ id, onNavigate, theme }) {
   switch (id) {
-    case 'home': return <HomeSection onNavigate={onNavigate} />;
+    case 'home': return <HomeSection onNavigate={onNavigate} theme={theme} />;
     case 'skills': return <SkillsSection onNavigate={onNavigate} />;
     case 'experience': return <ExperienceSection onNavigate={onNavigate} />;
     case 'resume': return <ResumeSection onNavigate={onNavigate} />;
     case 'projects': return <ProjectsSection onNavigate={onNavigate} />;
     case 'research': return <ResearchSection onNavigate={onNavigate} />;
     case 'contact': return <ContactSection />;
-    default: return <HomeSection onNavigate={onNavigate} />;
+    default: return <HomeSection onNavigate={onNavigate} theme={theme} />;
   }
 }
 
@@ -43,19 +43,19 @@ export default function App() {
   });
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'aurora';
+    if (typeof window === 'undefined') return 'light';
     try {
-      // v2 made Aurora the default; earlier visitors start on it once, then their choice sticks.
-      if (localStorage.getItem('themeVersion') !== '2') {
-        localStorage.setItem('themeVersion', '2');
-        return 'aurora';
+      if (localStorage.getItem('themeVersion') !== '4') {
+        localStorage.setItem('themeVersion', '4');
+        localStorage.setItem('theme', 'light');
+        return 'light';
       }
       const saved = localStorage.getItem('theme');
       if (saved && THEMES.some((t) => t.id === saved)) return saved;
     } catch {
       // storage blocked: fall through to the default
     }
-    return 'aurora';
+    return 'light';
   });
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
   const mainScrollRef = useRef(null);
@@ -139,7 +139,7 @@ export default function App() {
             transition={{ duration: 0.15, ease: 'easeInOut' }}
             className="w-full flex-1 flex flex-col"
           >
-            <SectionRenderer id={activeTab} onNavigate={switchTab} />
+            <SectionRenderer id={activeTab} onNavigate={switchTab} theme={theme} />
           </motion.div>
         </AnimatePresence>
       </main>

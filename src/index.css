@@ -14,8 +14,26 @@
   --breakpoint-2xl: 1536px;
 }
 
-/* ════ THEME: AURORA (default) — GitHub-dark navy with cyan → indigo gradient ════ */
-:root, .theme-aurora {
+/* ════ THEME: LIGHT (White theme - Default) ════ */
+:root, .theme-light, .theme-cat-light {
+  --bg-primary: #fafafa;
+  --bg-secondary: #ffffff;
+  --bg-surface: #ffffff;
+  --text-primary: #171717;
+  --text-muted: #404040;
+  --accent: #2563eb;
+  --accent-glow: #3b82f6;
+  --accent-fill: #2563eb;
+  --gradient-text: linear-gradient(135deg, #171717 0%, #2563eb 50%, #1d4ed8 100%);
+  --border-color: #e5e5e5;
+  --border-subtle: #f0f0f0;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --shadow-card: 0 8px 32px rgba(27, 31, 36, 0.08);
+  --grid-opacity: 0.04;
+}
+
+/* ════ THEME: AURORA — GitHub-dark navy with cyan → indigo gradient ════ */
+.theme-aurora {
   --bg-primary: #0d1117;
   --bg-secondary: #111722;
   --bg-surface: #161b22;
@@ -81,23 +99,8 @@
   --shadow-card: 0 12px 40px rgba(0,212,255,0.18);
   --grid-opacity: 0.05;
 }
-.theme-light {
-  --bg-primary: #f8f9fb;
-  --bg-secondary: #ffffff;
-  --bg-surface: #ffffff;
-  --text-primary: #111318;
-  --text-muted: #6b7280;
-  --accent: #ea580c;
-  --accent-glow: #f97316;
-  --border-color: rgba(0,0,0,0.08);
-  --border-subtle: rgba(0,0,0,0.04);
-  --card-bg: rgba(255,255,255,0.85);
-  --shadow-card: 0 8px 32px rgba(0,0,0,0.08);
-  --grid-opacity: 0.04;
-}
-
 /* Non-Aurora themes keep their original solid buttons and accent gradient text */
-.theme-neon, .theme-arctic, .theme-light {
+.theme-neon, .theme-arctic, .theme-light, .theme-cat-light {
   --accent-fill: var(--accent);
   --gradient-text: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-glow) 50%, var(--accent) 100%);
 }

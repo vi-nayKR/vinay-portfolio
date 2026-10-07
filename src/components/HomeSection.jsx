@@ -1,7 +1,8 @@
 import { motion } from 'motion/react';
 import { heroData } from '../data/hero.js';
 
-export default function HomeSection({ onNavigate }) {
+export default function HomeSection({ onNavigate, theme }) {
+  const isLight = theme === 'light' || theme === 'cat-light';
   return (
     <div id="home" className="grid-bg relative w-full flex-1 flex flex-col items-center justify-start px-4 sm:px-6 md:px-8 pt-3 sm:pt-6 md:pt-8 pb-3 sm:pb-6 min-h-0">
       {/* Ambient accent glow */}
@@ -47,11 +48,15 @@ export default function HomeSection({ onNavigate }) {
             )}
             {/* Black-and-white cut-out on black; the frame, brackets and glow carry the theme colour. */}
             <div
-              className="relative m-1.5 sm:m-2 overflow-hidden bg-black"
-              style={{ isolation: 'isolate', boxShadow: '0 0 40px color-mix(in srgb, var(--accent) 22%, transparent)' }}
+              className="relative m-1.5 sm:m-2 overflow-hidden"
+              style={{
+                background: isLight ? 'var(--bg-surface, #ffffff)' : '#000000',
+                isolation: 'isolate',
+                boxShadow: '0 0 40px color-mix(in srgb, var(--accent) 22%, transparent)',
+              }}
             >
               <img
-                src="/images/avatar.webp"
+                src={isLight ? '/images/avatar-light.webp' : '/images/avatar.webp'}
                 alt="Vinay K R"
                 width="560"
                 height="489"
