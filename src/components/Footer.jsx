@@ -15,7 +15,7 @@ export default function Footer() {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 h-full flex items-center justify-between">
         <p className="text-[11px] font-mono select-none" style={{ color: 'var(--text-muted)' }}>
-          &copy; {CURRENT_YEAR} Vinay. Built with React &amp; Motion.
+          &copy; {CURRENT_YEAR} Vinay
         </p>
         <div className="flex items-center gap-1.5 sm:gap-2">
           <a

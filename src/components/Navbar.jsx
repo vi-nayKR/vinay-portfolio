@@ -238,7 +238,7 @@ export default function Navbar({
           <div ref={themeContainerRef} className="relative">
             <button
               onClick={handleToggleTheme}
-              className="px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border flex items-center gap-1.5 sm:gap-2 transition-all duration-200 hover:border-[var(--accent)] hover:scale-105 cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-xl border flex items-center justify-center gap-1.5 transition-all duration-200 hover:border-[var(--accent)] hover:scale-105 cursor-pointer"
               style={{
                 borderColor: themeMenuOpen ? 'var(--accent)' : 'var(--border-color)',
                 color: themeMenuOpen ? 'var(--text-primary)' : 'var(--text-muted)',
@@ -249,12 +249,8 @@ export default function Navbar({
               aria-expanded={themeMenuOpen}
               title={`Theme: ${currentTheme?.label || 'Light'} (click to change)`}
             >
-              <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm-4 4a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm8 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm-5.5 5a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-              </svg>
-              <span className="text-xs font-mono font-medium tracking-wide">Theme</span>
               <span
-                className="w-2.5 h-2.5 rounded-full shrink-0 border border-white/20 transition-all duration-300"
+                className="w-3 h-3 rounded-full shrink-0 border border-white/20 transition-all duration-300"
                 style={{
                   background: currentTheme?.dot || 'var(--accent)',
                   boxShadow: `0 0 8px ${currentTheme?.dot || 'var(--accent)'}`,

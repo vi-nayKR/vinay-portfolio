@@ -14,8 +14,8 @@ export default function SkillsSection({ onNavigate }) {
   } = useBoundedCarousel({ itemCount: skillsData.categories.length });
 
   return (
-    <div id="skills" className="grid-bg w-full flex-1 flex flex-col justify-start px-3 sm:px-6 md:px-8 pt-4 sm:pt-6 md:pt-8 pb-4 sm:pb-6 min-h-0 overflow-hidden relative select-none">
-      <div className="max-w-6xl mx-auto w-full flex flex-col justify-start min-h-0">
+    <div id="skills" className="grid-bg w-full flex-1 flex flex-col justify-start px-3 sm:px-6 md:px-8 pt-3 sm:pt-6 md:pt-8 pb-3 sm:pb-6 min-h-0 overflow-hidden relative select-none">
+      <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col justify-between sm:justify-start min-h-0 py-1 sm:py-0">
         {/* Header */}
         <div className="text-center mb-3 sm:mb-4 shrink-0 px-1">
           <motion.p
@@ -44,7 +44,7 @@ export default function SkillsSection({ onNavigate }) {
             <div className="flex items-center gap-1">
               <button
                 onClick={stepPrev}
-                className="p-1 rounded-md border text-xs"
+                className="p-1 rounded-md border text-xs cursor-pointer"
                 style={{ borderColor: 'var(--border-color)', background: 'var(--card-bg)', color: 'var(--text-primary)' }}
                 aria-label="Previous skill category"
               >
@@ -52,7 +52,7 @@ export default function SkillsSection({ onNavigate }) {
               </button>
               <button
                 onClick={stepNext}
-                className="p-1 rounded-md border text-xs"
+                className="p-1 rounded-md border text-xs cursor-pointer"
                 style={{ borderColor: 'var(--border-color)', background: 'var(--card-bg)', color: 'var(--text-primary)' }}
                 aria-label="Next skill category"
               >
@@ -68,15 +68,15 @@ export default function SkillsSection({ onNavigate }) {
               dragElastic={0.15}
               onDragEnd={calculateBounds}
               style={{ x }}
-              className="flex gap-3 w-max"
+              className="flex gap-2.5 w-max items-start"
             >
               {skillsData.categories.map((cat) => (
                 <div
                   key={cat.name}
-                  className="w-[280px] shrink-0 p-3.5 rounded-xl glass-card flex flex-col justify-between"
+                  className="w-[280px] xs:w-[295px] shrink-0 p-3 rounded-xl glass-card flex flex-col gap-2"
                   style={{ borderColor: 'var(--border-color)', background: 'var(--card-bg)' }}
                 >
-                  <div className="flex items-center gap-2 mb-2.5">
+                  <div className="flex items-center gap-2">
                     <div
                       className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
                       style={{
