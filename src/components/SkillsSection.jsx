@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { skillsData } from '../data/skills.js';
 import { useBoundedCarousel } from '../hooks/useBoundedCarousel.js';
+import LeetCodeStrip from './LeetCodeStrip.jsx';
 
 export default function SkillsSection({ onNavigate }) {
   const {
@@ -183,9 +184,11 @@ export default function SkillsSection({ onNavigate }) {
           </div>
         </motion.div>
 
-        {/* Bottom Navigation Hint */}
+        <LeetCodeStrip />
+
+        {/* Bottom Navigation Hint (dropped on short desktop screens, where the LeetCode strip takes its room) */}
         {onNavigate && (
-          <div className="text-center mt-2 sm:mt-2.5 shrink-0">
+          <div className="text-center mt-2 sm:mt-2.5 shrink-0 [@media(min-width:640px)_and_(max-height:800px)]:hidden">
             <button
               onClick={() => onNavigate('experience')}
               className="inline-flex items-center gap-2 text-xs font-mono transition-all duration-200 hover:gap-3 cursor-pointer py-1 px-3 rounded-xl border border-transparent hover:border-[var(--border-color)]"
