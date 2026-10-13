@@ -3,8 +3,14 @@
 export const leetcodeData = {
   profileUrl: 'https://leetcode.com/u/vi-nayKR/',
   liveUrl: 'https://raw.githubusercontent.com/vi-nayKR/vi-nayKR/main/assets/leetcode.json',
+  // NeetCode lists shown in the strip (keys of the live JSON) and their display names
+  neetcodeLabels: { 'NEETCODE 250': 'NeetCode 250' },
   snapshot: {
-    solved: { All: 499, Easy: 162, Medium: 225, Hard: 112 },
-    neetcode: null,
+    solved: { All: 513, Easy: 163, Medium: 230, Hard: 120 },
+    neetcode: {
+      'NEETCODE 250': { solved: 243, total: 250 },
+      'NEETCODE 150': { solved: 114, total: 150 },
+      'BLIND 75': { solved: 63, total: 75 },
+    },
   },
 };

@@ -63,9 +63,9 @@ export default function LeetCodeStrip() {
           </span>
         ))}
         {neetcode &&
-          Object.entries(neetcode).map(([name, n]) => (
-            <span key={name} className="hidden md:inline">
-              {name} <b style={{ color: 'var(--text-primary)' }}>{n.solved}/{n.total}</b>
+          Object.entries(neetcode).filter(([name]) => name in leetcodeData.neetcodeLabels).map(([name, n]) => (
+            <span key={name} className="hidden lg:inline">
+              {leetcodeData.neetcodeLabels[name]} <b style={{ color: 'var(--text-primary)' }}>{n.solved}/{n.total}</b>
             </span>
           ))}
         <span style={{ color: 'var(--accent)' }}>↗</span>
