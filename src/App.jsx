@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
@@ -58,7 +58,6 @@ export default function App() {
     return 'light';
   });
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
-  const mainScrollRef = useRef(null);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -92,9 +91,6 @@ export default function App() {
     }
     setMenuOpen(false);
     setThemeMenuOpen(false);
-    if (mainScrollRef.current) {
-      mainScrollRef.current.scrollTo({ top: 0, behavior: 'instant' });
-    }
   }, []);
 
   const toggleThemeMenu = useCallback((val) => {
@@ -122,9 +118,8 @@ export default function App() {
       />
 
       <main
-        ref={mainScrollRef}
         id="main-scroll"
-        className="relative flex-1 w-full overflow-y-auto overflow-x-hidden flex flex-col"
+        className="relative flex-1 w-full overflow-hidden flex flex-col"
         style={{
           marginTop: 'var(--nav-height)',
           marginBottom: 'var(--footer-height)',

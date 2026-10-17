@@ -110,6 +110,7 @@ async function runProductionTestSuite() {
           scrollHeight: main ? main.scrollHeight : 0,
           clientHeight: main ? main.clientHeight : 0,
           diff: main ? main.scrollHeight - main.clientHeight : 0,
+          overflowY: main ? getComputedStyle(main).overflowY : '',
           brokenImages,
           hasHorizontalScroll,
           docWidth,
@@ -212,17 +213,23 @@ async function runProductionTestSuite() {
         failedTests.push(`[${vp.name}] Horizontal page overflow in tab "${tab}": docWidth=${metrics.docWidth} > winWidth=${metrics.winWidth}`);
       }
 
+      // The tab shell is viewport-bound; it must never paint a page-level scrollbar.
+      if (metrics.overflowY !== 'hidden') {
+        failedTests.push(`[${vp.name}] Page scrollbar enabled in tab "${tab}": overflow-y=${metrics.overflowY}`);
+      }
+
       // Capture screenshot
       const shotPath = path.join(screenshotDir, `${vp.name}-${tab}.png`);
       await page.screenshot({ path: shotPath });
 
-      const passed = metrics.diff <= 0 && consoleErrors.length === 0 && pageErrors.length === 0 && failed404s.length === 0;
+      const passed = metrics.diff <= 0 && metrics.overflowY === 'hidden' && consoleErrors.length === 0 && pageErrors.length === 0 && failed404s.length === 0;
       if (passed) {
         passedTests++;
         console.log(`  ✓ [${tab.padEnd(10)}] scrollHeight=${metrics.scrollHeight}, clientHeight=${metrics.clientHeight}, diff=${metrics.diff} (OK)`);
       } else {
         const reasons = [];
         if (metrics.diff > 0) reasons.push(`Overflow by ${metrics.diff}px`);
+        if (metrics.overflowY !== 'hidden') reasons.push(`Page scrollbar enabled (overflow-y=${metrics.overflowY})`);
         if (consoleErrors.length > 0) reasons.push(`Console errors: ${consoleErrors.join(' | ')}`);
         if (pageErrors.length > 0) reasons.push(`Page errors: ${pageErrors.join(' | ')}`);
         if (failed404s.length > 0) reasons.push(`404s: ${failed404s.join(' | ')}`);
