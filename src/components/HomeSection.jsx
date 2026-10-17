@@ -4,7 +4,7 @@ import { heroData } from '../data/hero.js';
 export default function HomeSection({ onNavigate, theme }) {
   const isLight = theme === 'light' || theme === 'cat-light';
   return (
-    <div id="home" className="grid-bg relative w-full flex-1 flex flex-col items-center justify-start px-4 sm:px-6 md:px-8 pt-3 sm:pt-6 md:pt-8 pb-3 sm:pb-6 min-h-0">
+    <div id="home" className="grid-bg relative w-full flex-1 flex flex-col items-center justify-start px-4 sm:px-6 md:px-8 pt-3 sm:pt-6 md:pt-8 pb-3 sm:pb-6 min-h-0 overflow-hidden [@media(max-height:800px)]:pt-2 [@media(max-height:800px)]:pb-2">
       {/* Ambient accent glow */}
       <div
         className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[350px] rounded-full pointer-events-none -z-10 blur-3xl opacity-20"
@@ -17,7 +17,7 @@ export default function HomeSection({ onNavigate, theme }) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-3 sm:mb-6"
+          className="mb-3 sm:mb-6 [@media(max-height:800px)]:mb-2"
         >
           {/* HUD frame: square photo, accent corner brackets, side connector lines (matches the GitHub profile card) */}
           <div className="relative w-24 sm:w-32 md:w-36 transition-transform duration-300 hover:scale-105">
@@ -71,7 +71,7 @@ export default function HomeSection({ onNavigate, theme }) {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-2xl sm:text-4xl md:text-5xl font-display font-bold tracking-normal mb-2 sm:mb-4 text-center"
+          className="text-2xl sm:text-4xl md:text-5xl font-display font-bold tracking-normal mb-2 sm:mb-4 text-center [@media(max-height:800px)]:mb-2"
           style={{ color: 'var(--text-primary)' }}
         >
           Hey, I'm <span className="gradient-text">Vinay</span>
@@ -94,7 +94,7 @@ export default function HomeSection({ onNavigate, theme }) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-xs sm:text-sm md:text-[15px] max-w-2xl leading-relaxed sm:leading-7 md:leading-8 tracking-wide mb-4 sm:mb-8"
+          className="text-xs sm:text-sm md:text-[15px] max-w-2xl leading-relaxed sm:leading-7 md:leading-8 tracking-wide mb-4 sm:mb-8 [@media(max-height:800px)]:mb-3 [@media(max-height:700px)]:hidden"
           style={{ color: 'var(--text-muted)' }}
         >
           {heroData.description}
@@ -105,7 +105,7 @@ export default function HomeSection({ onNavigate, theme }) {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 mb-4 sm:mb-8"
+          className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 mb-4 sm:mb-8 [@media(max-height:800px)]:mb-3"
         >
           <button
             onClick={() => onNavigate('projects')}
@@ -140,7 +140,7 @@ export default function HomeSection({ onNavigate, theme }) {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="w-full"
         >
-          <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.18em] sm:tracking-[0.2em] mb-2 sm:mb-4" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.18em] sm:tracking-[0.2em] mb-2 sm:mb-4 [@media(max-height:800px)]:mb-2" style={{ color: 'var(--text-muted)' }}>
             Core Technologies &amp; Frameworks
           </p>
           <div className="flex flex-wrap gap-1.5 sm:gap-2.5 justify-center max-w-3xl mx-auto">

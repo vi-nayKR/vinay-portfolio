@@ -41,21 +41,20 @@ export default function App() {
     }
     return 'home';
   });
-  const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'light';
+    if (typeof window === 'undefined') return 'void';
     try {
-      if (localStorage.getItem('themeVersion') !== '4') {
-        localStorage.setItem('themeVersion', '4');
-        localStorage.setItem('theme', 'light');
-        return 'light';
+      if (localStorage.getItem('themeVersion') !== '5') {
+        localStorage.setItem('themeVersion', '5');
+        localStorage.setItem('theme', 'void');
+        return 'void';
       }
       const saved = localStorage.getItem('theme');
       if (saved && THEMES.some((t) => t.id === saved)) return saved;
     } catch {
       // storage blocked: fall through to the default
     }
-    return 'light';
+    return 'void';
   });
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
 
@@ -89,16 +88,11 @@ export default function App() {
     if (typeof window !== 'undefined') {
       window.location.hash = id;
     }
-    setMenuOpen(false);
     setThemeMenuOpen(false);
   }, []);
 
   const toggleThemeMenu = useCallback((val) => {
     setThemeMenuOpen((m) => (typeof val === 'boolean' ? val : !m));
-  }, []);
-
-  const toggleMenu = useCallback((val) => {
-    setMenuOpen((m) => (typeof val === 'boolean' ? val : !m));
   }, []);
 
   const currentTheme = THEMES.find((t) => t.id === theme) || THEMES[0];
@@ -108,8 +102,6 @@ export default function App() {
       <Navbar
         activeTab={activeTab}
         onTabChange={switchTab}
-        menuOpen={menuOpen}
-        onToggleMenu={toggleMenu}
         currentTheme={currentTheme}
         themes={THEMES}
         onThemeChange={setTheme}
@@ -119,7 +111,7 @@ export default function App() {
 
       <main
         id="main-scroll"
-        className="relative flex-1 w-full overflow-hidden flex flex-col"
+        className="relative flex-1 min-h-0 w-full overflow-hidden flex flex-col"
         style={{
           marginTop: 'var(--nav-height)',
           marginBottom: 'var(--footer-height)',
@@ -132,7 +124,7 @@ export default function App() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15, ease: 'easeInOut' }}
-            className="w-full flex-1 flex flex-col"
+            className="w-full flex-1 min-h-0 flex flex-col"
           >
             <SectionRenderer id={activeTab} onNavigate={switchTab} theme={theme} />
           </motion.div>

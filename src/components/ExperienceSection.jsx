@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { experienceData } from '../data/experience.js';
 import PagedCarousel from './PagedCarousel.jsx';
 
-export default function ExperienceSection({ onNavigate }) {
+export default function ExperienceSection() {
   const experiences = experienceData.experiences;
 
   return (
@@ -166,18 +166,6 @@ export default function ExperienceSection({ onNavigate }) {
           </span>
         </div>
 
-        {/* Bottom Navigation Hint */}
-        {onNavigate && (
-          <div className="text-center mt-2 shrink-0">
-            <button
-              onClick={() => onNavigate('projects')}
-              className="inline-flex items-center gap-2 text-xs font-mono transition-all duration-200 hover:gap-3 cursor-pointer py-1 px-3 rounded-xl border border-transparent hover:border-[var(--border-color)]"
-              style={{ color: 'var(--accent)' }}
-            >
-              Next: Explore Projects &amp; Systems →
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

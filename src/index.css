@@ -107,13 +107,16 @@
 
 /* ════ LAYOUT TOKENS ════ */
 :root {
-  --nav-height: 64px;
+  --nav-height: 112px;
   --footer-height: 44px;
 }
 @media (min-width: 640px) {
-  :root { --nav-height: 72px; --footer-height: 46px; }
+  :root { --nav-height: 120px; --footer-height: 46px; }
 }
 @media (min-width: 768px) {
+  :root { --nav-height: 128px; --footer-height: 46px; }
+}
+@media (min-width: 1024px) {
   :root { --nav-height: 80px; --footer-height: 46px; }
 }
 

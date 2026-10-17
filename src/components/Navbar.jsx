@@ -80,17 +80,14 @@ const mobileTabs = [
 export default function Navbar({
   activeTab,
   onTabChange,
-  menuOpen,
-  onToggleMenu,
   currentTheme,
   themes,
   onThemeChange,
   themeMenuOpen,
   onToggleThemeMenu,
 }) {
-  const themeId = currentTheme?.id || 'light';
+  const themeId = currentTheme?.id || 'void';
   const isContactActive = activeTab === 'contact';
-  const navRef = useRef(null);
   const themeContainerRef = useRef(null);
   const [soundActive, setSoundActive] = useState(() => soundService.isEnabled());
 
@@ -109,19 +106,15 @@ export default function Navbar({
       if (themeMenuOpen && themeContainerRef.current && !themeContainerRef.current.contains(event.target)) {
         onToggleThemeMenu(false);
       }
-      if (menuOpen && navRef.current && !navRef.current.contains(event.target)) {
-        onToggleMenu(false);
-      }
     }
 
     function handleKeyDown(event) {
       if (event.key === 'Escape') {
         if (themeMenuOpen) onToggleThemeMenu(false);
-        if (menuOpen) onToggleMenu(false);
       }
     }
 
-    if (themeMenuOpen || menuOpen) {
+    if (themeMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('touchstart', handleClickOutside);
       document.addEventListener('keydown', handleKeyDown);
@@ -132,21 +125,14 @@ export default function Navbar({
       document.removeEventListener('touchstart', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [themeMenuOpen, menuOpen, onToggleThemeMenu, onToggleMenu]);
+  }, [themeMenuOpen, onToggleThemeMenu]);
 
   const handleToggleTheme = () => {
-    if (!themeMenuOpen && menuOpen) onToggleMenu(false);
     onToggleThemeMenu();
-  };
-
-  const handleToggleMenu = () => {
-    if (!menuOpen && themeMenuOpen) onToggleThemeMenu(false);
-    onToggleMenu();
   };
 
   return (
     <nav
-      ref={navRef}
       className="fixed top-0 left-0 right-0 z-50 transition-colors duration-300"
       style={{
         background: 'color-mix(in srgb, var(--bg-primary) 88%, transparent)',
@@ -351,76 +337,32 @@ export default function Navbar({
             <span className="whitespace-nowrap">Connect</span>
           </button>
 
-          {/* Mobile / Tablet: hamburger */}
-          <button
-            onClick={handleToggleMenu}
-            className="lg:hidden p-2 rounded-xl border flex items-center justify-center transition-colors cursor-pointer"
-            aria-label="Menu"
-            aria-expanded={menuOpen}
-            style={{
-              borderColor: menuOpen ? 'var(--accent)' : 'var(--border-color)',
-              color: 'var(--text-primary)',
-              background: 'var(--border-subtle)',
-            }}
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              {menuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
         </div>
       </div>
 
-      {/* Mobile / Tablet Drawer */}
-      {menuOpen && (
-        <div
-          className="lg:hidden px-4 sm:px-6 pb-4 pt-2 border-b animate-in fade-in slide-in-from-top-2 duration-150"
-          style={{ background: 'var(--bg-surface)', borderBottom: '1px solid var(--border-color)' }}
-        >
-          <div className="grid grid-cols-4 gap-2">
-            {mobileTabs.map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => onTabChange(tab.id)}
-                  className={`flex flex-col items-center justify-center gap-1.5 py-2.5 px-1 rounded-xl text-[11px] font-mono transition-all duration-200 cursor-pointer ${
-                    isActive ? 'font-bold' : ''
-                  }`}
-                  style={{
-                    color: isActive ? 'var(--accent)' : 'var(--text-muted)',
-                    background: isActive
-                      ? 'color-mix(in srgb, var(--accent) 12%, transparent)'
-                      : 'var(--border-subtle)',
-                  }}
-                >
-                  <span className="shrink-0">{tab.icon}</span>
-                  <span className="truncate max-w-full">{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="flex items-center gap-2 pt-2 mt-2 border-t" style={{ borderColor: 'var(--border-color)' }}>
-            <button
-              onClick={handleSoundToggle}
-              className="w-full py-2 px-3 rounded-xl text-xs font-mono border flex items-center justify-center gap-2 cursor-pointer"
-              style={{
-                borderColor: soundActive ? 'var(--accent)' : 'var(--border-color)',
-                color: soundActive ? 'var(--accent)' : 'var(--text-muted)',
-                background: 'var(--border-subtle)',
-              }}
-              title={soundActive ? 'Sound Effects Enabled (Click to Mute)' : 'Sound Effects Muted (Click to Enable)'}
-              aria-label={soundActive ? 'Mute sound effects' : 'Enable sound effects'}
-            >
-              {soundActive ? '🔊 Sound On (Click to Mute)' : '🔇 Sound Muted (Click to Enable)'}
-            </button>
-          </div>
+      <div className="lg:hidden h-12 px-1.5 sm:px-4 border-t" style={{ borderColor: 'var(--border-color)' }}>
+        <div className="grid grid-cols-7 h-full max-w-3xl mx-auto gap-1 items-center" aria-label="Primary navigation">
+          {mobileTabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => onTabChange(tab.id)}
+                aria-current={isActive ? 'page' : undefined}
+                className="min-w-0 h-9 px-0.5 rounded-lg font-mono font-medium leading-none truncate transition-all duration-200 cursor-pointer [font-size:clamp(8px,1.5vw,11px)]"
+                style={{
+                  color: isActive ? 'var(--accent)' : 'var(--text-muted)',
+                  background: isActive ? 'color-mix(in srgb, var(--accent) 14%, transparent)' : 'transparent',
+                  border: `1px solid ${isActive ? 'color-mix(in srgb, var(--accent) 28%, transparent)' : 'transparent'}`,
+                }}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
-      )}
+      </div>
     </nav>
   );
 }

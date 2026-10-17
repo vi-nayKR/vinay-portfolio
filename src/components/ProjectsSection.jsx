@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { projectsData } from '../data/projects.js';
 import PagedCarousel from './PagedCarousel.jsx';
 
-export default function ProjectsSection({ onNavigate }) {
+export default function ProjectsSection() {
   const highlights = projectsData.highlights;
 
   return (
@@ -174,18 +174,6 @@ export default function ProjectsSection({ onNavigate }) {
           ))}
         </div>
 
-        {/* Bottom Navigation Hint */}
-        {onNavigate && (
-          <div className="text-center mt-2 shrink-0">
-            <button
-              onClick={() => onNavigate('research')}
-              className="inline-flex items-center gap-2 text-xs font-mono transition-all duration-200 hover:gap-3 cursor-pointer py-1 px-3 rounded-xl border border-transparent hover:border-[var(--border-color)]"
-              style={{ color: 'var(--accent)' }}
-            >
-              Next: Explore Research &amp; Publications →
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

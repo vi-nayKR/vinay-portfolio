@@ -49,6 +49,7 @@ async function runProductionTestSuite() {
     { name: 'desktop-1440x900',  width: 1440, height: 900,  type: 'desktop' },
     { name: 'laptop-1366x768',   width: 1366, height: 768,  type: 'laptop' },
     { name: 'tablet-768x1024',   width: 768,  height: 1024, type: 'tablet' },
+    { name: 'tablet-942x970',    width: 942,  height: 970,  type: 'tablet' },
     { name: 'mobile-390x844',    width: 390,  height: 844,  type: 'mobile' },
     { name: 'mobile-360x740',    width: 360,  height: 740,  type: 'mobile' },
   ];
@@ -285,6 +286,15 @@ async function runProductionTestSuite() {
     // Theme Switcher Full Cycle Check
     if (vp.name === 'desktop-1440x900') {
       console.log('  Testing Full Theme Switcher Cycle...');
+      const defaultTheme = await page.evaluate(() => ({
+        hasVoidClass: document.documentElement.classList.contains('theme-void'),
+        storedTheme: localStorage.getItem('theme'),
+      }));
+      if (!defaultTheme.hasVoidClass || defaultTheme.storedTheme !== 'void') {
+        failedTests.push(`Default theme is not Void: class=${defaultTheme.hasVoidClass}, localStorage=${defaultTheme.storedTheme}`);
+      } else {
+        console.log('  ✓ Void is applied and persisted as the default theme');
+      }
       const themeBtn = page.locator('button[aria-label="Change theme"]');
       const themeSequence = [
         { id: 'neon', name: 'Neon', cls: 'theme-neon' },
@@ -342,28 +352,25 @@ async function runProductionTestSuite() {
       }
     }
 
-    // Mobile Drawer Navigation Check
-    if (vp.type === 'mobile') {
-      console.log('  Testing Mobile Drawer Navigation...');
+    // Compact header navigation stays visible below the desktop breakpoint.
+    if (vp.width < 1024) {
+      console.log('  Testing Always-Visible Header Navigation...');
       await page.goto('http://localhost:4174/#home', { waitUntil: 'networkidle' });
       await page.waitForTimeout(200);
 
       const hamburger = page.locator('button[aria-label="Menu"]');
-      await hamburger.click();
-      await page.waitForTimeout(200);
-
-      const projBtn = page.locator('div.grid-cols-4 button:has-text("Projects")');
-      if (await projBtn.isVisible()) {
+      const projBtn = page.locator('nav [aria-label="Primary navigation"] button:has-text("Projects")');
+      if ((await hamburger.count()) === 0 && await projBtn.isVisible()) {
         await projBtn.click();
         await page.waitForTimeout(300);
         const currentHash = await page.evaluate(() => window.location.hash);
         if (currentHash === '#projects') {
-          console.log('  ✓ Mobile menu drawer navigated to #projects successfully');
+          console.log('  ✓ Header tabs are visible and navigate to #projects without a hamburger');
         } else {
-          failedTests.push(`Mobile drawer navigation failed: expected #projects, got ${currentHash}`);
+          failedTests.push(`Compact header navigation failed: expected #projects, got ${currentHash}`);
         }
       } else {
-        failedTests.push(`Mobile drawer Projects button not visible`);
+        failedTests.push('Compact header tabs missing or hamburger still visible');
       }
     }
 
