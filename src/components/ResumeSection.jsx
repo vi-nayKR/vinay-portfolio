@@ -143,7 +143,7 @@ export default function ResumeSection({ onNavigate }) {
           >
             <ActionButton icon="download" label="Download" primary href={resumeData.url} download={resumeData.download} />
             <ActionButton icon="view" label="View" href={resumeData.url} target="_blank" rel="noopener noreferrer" />
-            <ActionButton icon="docx" label="DOCX" href={resumeData.docxUrl} download />
+            <ActionButton icon="docx" label="Original layout" href={resumeData.alternateUrl} download />
             <ActionButton icon="print" label="Print" type="button" onClick={handlePrint} />
           </motion.div>
         </div>

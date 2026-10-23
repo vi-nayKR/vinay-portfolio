@@ -108,7 +108,7 @@ export default function ProjectsSection() {
 
                   {repo.evidence && repo.evidence.length > 0 && (
                     <div className="flex flex-wrap items-center gap-2 mb-2.5">
-                      <span className="text-[11px] font-mono text-[var(--text-muted)]">Verified in:</span>
+                      <span className="text-[11px] font-mono text-[var(--text-muted)]">Read more:</span>
                       {repo.evidence.map((ev) => (
                         <a
                           key={ev.label}

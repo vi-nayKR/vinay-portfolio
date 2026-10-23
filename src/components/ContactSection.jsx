@@ -10,11 +10,10 @@ export default function ContactSection() {
   const submit = (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) return;
+    const subject = encodeURIComponent(`Portfolio enquiry from ${form.name}`);
+    const body = encodeURIComponent(`Name: ${form.name}\nReply email: ${form.email}\n\n${form.message}`);
+    window.open(`mailto:vinayravindranatha@gmail.com?subject=${subject}&body=${body}`, '_blank', 'noopener,noreferrer');
     setSubmitted(true);
-    setTimeout(() => {
-      setForm({ name: '', email: '', message: '' });
-      setSubmitted(false);
-    }, 3500);
   };
 
   const copyEmail = () => {
@@ -131,7 +130,7 @@ export default function ContactSection() {
               Send a Direct Message
             </h3>
             <p className="text-xs sm:text-sm mb-2.5 sm:mb-4 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-              Fill in your details below and I'll get back to you promptly.
+              Open a draft in your email app, then send it there. This website does not send messages.
             </p>
 
             <form onSubmit={submit} className="space-y-2.5 sm:space-y-3.5">
@@ -202,7 +201,6 @@ export default function ContactSection() {
 
               <button
                 type="submit"
-                disabled={submitted}
                 className="w-full py-2 sm:py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-75 hover:scale-[1.01]"
                 style={{ background: 'var(--accent-fill, var(--accent))', color: '#fff' }}
               >
@@ -211,11 +209,11 @@ export default function ContactSection() {
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
                     </svg>
-                    Message Sent Successfully!
+                    Draft prepared — send from your email app
                   </span>
                 ) : (
                   <span className="flex items-center gap-1.5">
-                    Send Message
+                    Open Email Draft
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>

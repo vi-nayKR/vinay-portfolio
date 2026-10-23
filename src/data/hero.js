@@ -1,7 +1,7 @@
 export const heroData = {
   name: 'Vinay',
-  tagline: 'AI Engineer',
-  subtitle: 'shipping LLM systems you can measure.',
-  description: `Hybrid RAG with reviewed evaluation sets, LangGraph agents with tool calling, MCP and human approval, and document AI that links every value to its source. Built on 3+ years of production Python, Go and TypeScript.`,
-  techs: ['Python', 'FastAPI', 'LangGraph', 'RAG', 'Docling', 'MCP', 'LLM Evals', 'Go', 'PostgreSQL'],
+  tagline: 'Software Engineer',
+  subtitle: 'backend, full-stack & applied AI.',
+  description: 'Full-stack experience at Light & Wonder and Liminal Custody, plus co-founder engineering at Medha. I build backend workflows and applied-AI portfolio projects with explicit authorization, evaluation and human review—not unrestricted automation.',
+  techs: ['Python', 'TypeScript', 'Go', 'FastAPI', 'PostgreSQL', 'Redis', 'LangGraph', 'Docker', 'OpenTelemetry'],
 };

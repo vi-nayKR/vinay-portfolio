@@ -1,45 +1,25 @@
-// Mirrors Vinay_K_R_AI_Engineer_Resume_final.docx. Every value here must also appear in that resume.
+// Public default: approved ATS-focused PDF; the layout-preserving version remains available separately.
 export const resumeData = {
-  title: 'Vinay K R — AI Engineer Resume',
-  url: '/resumes/Vinay_K_R_AI_Engineer_Resume.pdf',
-  download: 'Vinay_K_R_AI_Engineer_Resume.pdf',
-  docxUrl: '/resumes/Vinay_K_R_AI_Engineer_Resume.docx',
+  title: 'Vinay K R — Software Engineer Resume',
+  url: '/resumes/Vinay_K_R_Software_Engineer_Resume_ATS.pdf',
+  download: 'Vinay_K_R_Software_Engineer_Resume_ATS.pdf',
+  alternateUrl: '/resumes/Vinay_K_R_Software_Engineer_Resume.pdf',
   updated: 'Oct 2026',
   pages: 2,
-  // Rendered from the PDF by scratch/export_resume.ps1 (Letter size, 1530x1980)
   pageImages: ['/resumes/pages/page-1.webp', '/resumes/pages/page-2.webp'],
   pageAspect: '612 / 792',
-  headline:
-    'AI Engineer · 3+ years of production Python · RAG, AI agents (LangGraph, MCP) and LLM evaluation, with a focus on accuracy, latency and cost.',
+  headline: 'Software Engineer · Backend & Full-Stack · Applied AI. Professional experience, co-founder work and portfolio evidence are distinguished.',
   highlights: [
-    {
-      value: '76.0%',
-      label: 'held-out F1',
-      detail: 'ReconcileAI: Gemini vision vs 66.0% Qwen VLM and 56.9% OCR + text LLM',
-    },
-    {
-      value: '1,420 → 264 MiB',
-      label: 'memory cut',
-      detail: 'Medha docs QA: int8 + ONNX arena off to fit a 512 MiB container',
-    },
-    {
-      value: '60 turns',
-      label: '3-language eval',
-      detail: 'Medha Sahayak: English, Kannada and Hindi; rules baseline vs gpt-oss-20b',
-    },
-    {
-      value: '2 LLM tools',
-      label: 'at L&W',
-      detail: 'Gemini debugging tool on Azure; OpenAI in-game assistant approved for lab testing',
-    },
+    { value: '2 flagships', label: 'applied-AI portfolio', detail: 'TraceWard and ReconcileAI: architecture, evidence maps and local demo scripts' },
+    { value: '20 receipts', label: 'bounded extraction study', detail: '76.0% Gemini field F1; receipt extraction, not invoice/PO reconciliation accuracy' },
+    { value: '50 cases', label: 'synthetic known families', detail: 'TraceWard recorded holdout; not production generalization or blanket security' },
+    { value: '6 services', label: 'single-host SRE', detail: 'Isolated deployment; independent paging, off-host recovery and HA remain separate acceptance work' },
   ],
-  professionalCore:
-    '3+ years across Medha Innovations, Liminal Custody and Light & Wonder. At Light & Wonder, built an LLM-assisted debugging tool (Gemini API, on Azure) used by internal teams and an in-game LLM chat assistant (OpenAI API) approved for lab testing. At Medha, built an event-driven LLM booking assistant with guardrails and human approval, and deployed a hybrid-search documentation QA service.',
-  projectEvidence:
-    'ReconcileAI compares three extraction backends on held-out CORD receipts. TraceWard is a LangGraph incident-triage agent with MCP tools, human approval and prompt-injection tests. EvidenceRAG runs SQuAD v1.1 retrieval ablations scored by Recall@k, MRR, nDCG and an LLM judge.',
+  professionalCore: 'Full-stack experience at Light & Wonder and Liminal Custody, plus a self-funded Medha venture. L&W internship (Mar–Jul 2023) is separate from employment (Aug 2023–Jul 2025; final title Senior Associate Software Engineer). Liminal: Nov 2025–Mar 2026. Medha venture: Mar–Sep 2026. Later AI experiments are independent portfolio/R&D work, not backdated startup deliveries.',
+  projectEvidence: 'TraceWard demonstrates predefined checkpointed triage and content-bound approval before local draft persistence. ReconcileAI separates model extraction, deterministic monetary checks and human correction. Reports describe their dataset and scoring limitations; a prerecorded or deterministic demo is not a fresh model evaluation.',
   skillGroups: [
-    { label: 'LLM, RAG & Evaluation', items: 'Python, FastAPI, Pydantic, LangGraph, MCP, hybrid search, BM25, reranking, Docling, VLMs, LLM-as-a-judge, Recall@k / MRR / nDCG' },
-    { label: 'Backend & Frontend', items: 'Go, Node.js, TypeScript, REST APIs, SSE, WebSockets, Redis Pub/Sub, React, Angular' },
-    { label: 'Data & Delivery', items: 'PostgreSQL, PostGIS, Redis, MySQL, Docker, Kubernetes (k3s), Argo CD, GitHub Actions, GitLab CI/CD, OpenTelemetry' },
+    { label: 'Applied AI & Evaluation', items: 'Python, FastAPI, Pydantic, LangGraph, MCP, retrieval, Docling, structured extraction, frozen evaluations and human review' },
+    { label: 'Backend & Full-Stack', items: 'Go, TypeScript, Node.js, REST APIs, SSE, WebSockets, React, Angular, transactions and authorization' },
+    { label: 'Data & Delivery', items: 'PostgreSQL, PostGIS, Redis, SQL Server, Docker, CI, OpenTelemetry and bounded single-host operations' },
   ],
 };

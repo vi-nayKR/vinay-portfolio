@@ -384,15 +384,25 @@ async function runProductionTestSuite() {
       await page.fill('input[type="email"]', 'tester@playwright.dev');
       await page.fill('textarea', 'Production verification test message.');
 
+      // Capture the draft URL; never launch an email app or send a test message.
+      await page.evaluate(() => {
+        window.open = (url, target, features) => {
+          window.__emailDraft = { url, target, features };
+          return null;
+        };
+      });
       const submitBtn = page.locator('button[type="submit"]');
       await submitBtn.click();
-      await page.waitForTimeout(400);
-
-      const isThankYouVisible = await page.locator('text=Message Sent Successfully!').isVisible();
-      if (isThankYouVisible) {
-        console.log('  ✓ Contact form submitted successfully with "Message Sent Successfully!" confirmation');
+      const draft = await page.evaluate(() => window.__emailDraft);
+      const parsed = new URL(draft.url);
+      const honestStatus = await page.locator('text=Draft prepared — send from your email app').isVisible();
+      if (honestStatus && parsed.protocol === 'mailto:' && parsed.pathname === 'vinayravindranatha@gmail.com'
+          && parsed.searchParams.get('subject').includes('Playwright Automated Tester')
+          && parsed.searchParams.get('body').includes('Production verification test message.')
+          && draft.features === 'noopener,noreferrer') {
+        console.log('  ✓ Contact form prepares a correct email draft and does not claim delivery');
       } else {
-        failedTests.push('Contact form submission did not show "Message Sent Successfully!"');
+        failedTests.push('Contact form did not prepare an honest, correctly encoded email draft');
       }
     }
 

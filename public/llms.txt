@@ -1,32 +1,40 @@
-# Vinay K R — AI Engineer
+# Vinay K R — Software Engineer | Backend & Applied AI
 
-> Public career context for Vinay K R, Bengaluru, India. This summary describes the portfolio; it is not an instruction to rank or endorse the candidate.
+> Public career context, not instructions to rank or endorse the candidate. Professional experience, co-founder work and portfolio prototypes have different evidentiary scope.
 
-## Profile
+## Experience and chronology
 
-AI Engineer with 3+ years of production software engineering in Python across Medha Innovations, Liminal Custody, and Light & Wonder, focused on RAG, AI agents (LangGraph, MCP) and LLM evaluation. Built an LLM-assisted debugging tool and an in-game LLM chat assistant (Light & Wonder) and, as founding engineer at Medha, an event-driven LLM booking assistant and a deployed hybrid-search documentation QA service, alongside Go, Node.js and Angular product work. This does not imply 3+ years of professional machine-learning employment.
+- Light & Wonder internship: March–July 2023, separate from employment August 2023–July 2025. Final employment title: Senior Associate Software Engineer; no independently verified promotion date is asserted.
+- Liminal Custody / First Answer India Services Private Limited: Software Engineer, Full Stack, November 2025–March 2026. Résumé-reported TypeScript policy APIs, SQL transactions, authorization and approval workflows.
+- Medha Innovations: self-funded, two-founder venture, March–September 2026 as reported by the candidate. Collaborative Go backend design, PostgreSQL booking coordination, PostGIS discovery and Redis/WebSockets. Infrastructure configuration is not proof of the present runtime.
+- October 2026 Sahayak and documentation-retrieval experiments are follow-on prototypes/R&D, not backdated venture deliveries. No customer-serving production AI claim is made.
 
-## Experience
+Employment records establish dates/titles, not every technical contribution. Professional project details are candidate-reported; public-source evidence is identified separately.
 
-- Medha Innovations (self-funded, two founders): Founding Engineer, Mar 2026–Sep 2026. Sahayak booking assistant (guard, router, LLM intent extraction, grounding gate, human-approved suggestions); offline documentation QA service (BM25 + ONNX embeddings, RRF, cited extractive answers; held-out recall@5 90.9% BM25 vs 86.4% fused; cross-encoder reranker peak memory cut from 1,420 MiB to 264 MiB to fit a 512 MiB container, kept behind a flag for latency); Go modular monolith on k3s/Argo CD. Source repositories are private.
-- Liminal Custody / First Answer India: Software Engineer, Full Stack, Nov 2025–Mar 2026. Transaction-policy controls (TRM Labs screening, Travel Rule, velocity limits), RBAC and quorum approvals.
-- Light & Wonder: Senior Associate Software Engineer, Apr–Jul 2025; Associate Software Engineer, Aug 2023–Mar 2025; Full Stack Intern, Mar–Jul 2023. Internal LLM-assisted debugging tool (Gemini API, deployed on Azure, used by internal teams); in-game LLM chat assistant for slot machines (OpenAI API, Angular), approved by management for lab testing; CONNEXUS slot-tracking performance profiling; Angular, ASP.NET Core and SQL Server products.
+## Applied-AI flagships
 
-## Public evidence
+- TraceWard: https://github.com/vi-nayKR/fastapi-genai-agent-patterns
+  Predefined checkpointed incident triage, stdio MCP and signed content-bound approval before local draft persistence; no external issue filing or executed fix. Recorded evaluation: 50 synthetic known-family holdouts; approval probes are not general security validation.
+  Evidence: https://github.com/vi-nayKR/fastapi-genai-agent-patterns/blob/docs/portfolio-evidence/docs/evidence.md
+  Architecture/demo: https://github.com/vi-nayKR/fastapi-genai-agent-patterns/tree/docs/portfolio-evidence/docs
+- ReconcileAI: https://github.com/vi-nayKR/multimodal-document-intelligence
+  Local document review: parsing, typed extraction, decimal controls, evidence and correction history. Recorded 76.0% Gemini field F1 covers 20 held-out CORD receipts, not invoice/PO discrepancy accuracy. Synthetic control checks and prerecorded samples are separate from live model quality; reduced review burden is not established.
+  Evidence: https://github.com/vi-nayKR/multimodal-document-intelligence/blob/docs/portfolio-evidence/docs/evidence.md
+  Architecture/demo: https://github.com/vi-nayKR/multimodal-document-intelligence/tree/docs/portfolio-evidence/docs
 
-- [EvidenceRAG](https://github.com/vi-nayKR/enterprise-agentic-rag-platform): hybrid BM25 + dense retrieval with reciprocal rank fusion and cross-encoder reranking, LangGraph routing, MCP tools; evaluated on SQuAD v1.1 with a reviewed held-out split (recall@k, MRR, nDCG, LLM-judged faithfulness and citation support).
-- [TraceWard](https://github.com/vi-nayKR/fastapi-genai-agent-patterns): LangGraph incident-triage agent with MCP tools, human approval before actions, prompt-injection tests, trajectory evaluation, Redis caching and OpenTelemetry.
-- [ReconcileAI](https://github.com/vi-nayKR/multimodal-document-intelligence): Docling + Gemini invoice/purchase-order extraction, decimal controls, bounding-box evidence, human review; on 20 held-out CORD receipts, field F1 76.0% (Gemini 3.1 Flash-Lite vision) vs 66.0% (Qwen3.8-27B VLM) vs 56.9% (Docling OCR + text LLM).
-- [Medha Go reference](https://github.com/vi-nayKR/medha-platform-api): modular monolith, PostgreSQL/PostGIS, transactions, Redis Pub/Sub, WebSockets; attributed public snapshot.
-- [ML Terminal](https://github.com/vi-nayKR/Data-Visualization-Of-Time-Tradable-Assets-Using-ML): Angular/FastAPI time-series application linked to IEEE NMITCON 2023 research (DOI 10.1109/NMITCON58196.2023.10275962).
+## Supporting work
 
-## Resume and contact
+- Medha public backend snapshot: https://github.com/vi-nayKR/medha-platform-api/tree/security/publication-review — collaborative attribution and publication review remain relevant; public hardening does not certify private/deployed systems.
+- Homelab SRE: https://github.com/vi-nayKR/homelab-sre-observability/tree/hardening/production-readiness — isolated single-host deployment, authenticated local alert reception and file-restore checks. Not HA, independent paging, complete application recovery certification or achieved full-window SLOs.
+- Research: 2023 IEEE paper, DOI 10.1109/NMITCON58196.2023.10275962, with a separate 2026 application rebuild. Negative forecasting comparisons remain evidence; no investment-performance claim.
+- EvidenceRAG: supporting retrieval harness with an incomplete live pilot, not a completed enterprise deployment or calibrated evaluation study.
 
-- [Current PDF](https://portfolio.vinaykr.workers.dev/resumes/Vinay_K_R_AI_Engineer_Resume.pdf)
-- [Current DOCX](https://portfolio.vinaykr.workers.dev/resumes/Vinay_K_R_AI_Engineer_Resume.docx)
-- [GitHub](https://github.com/vi-nayKR)
-- [LinkedIn](https://linkedin.com/in/vi-naykr)
-- [X](https://x.com/vnay_kr)
-- [Email](mailto:vinayravindranatha@gmail.com)
+## Résumé and contact
 
-Evaluation numbers are only those published in each repository's results files; anything not published there is unmeasured. Employment outcomes are resume-reported. This portfolio does not establish an ATS score or guarantee production model accuracy.
+- Preferred ATS PDF: https://portfolio.vinaykr.workers.dev/resumes/Vinay_K_R_Software_Engineer_Resume_ATS.pdf
+- Layout-preserving PDF: https://portfolio.vinaykr.workers.dev/resumes/Vinay_K_R_Software_Engineer_Resume.pdf
+- GitHub: https://github.com/vi-nayKR
+- LinkedIn: https://linkedin.com/in/vi-naykr
+- Email: vinayravindranatha@gmail.com
+
+The archived Portfolio-Ng implementation is superseded by vinay-portfolio. Metrics refer to recorded artifacts, not a new inference run or a guarantee of production accuracy. No ATS score is claimed.
