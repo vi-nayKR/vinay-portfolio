@@ -5,17 +5,14 @@ import Footer from './components/Footer.jsx';
 import HomeSection from './components/HomeSection.jsx';
 import SkillsSection from './components/SkillsSection.jsx';
 import ExperienceSection from './components/ExperienceSection.jsx';
-import ResumeSection from './components/ResumeSection.jsx';
 import ProjectsSection from './components/ProjectsSection.jsx';
 import ResearchSection from './components/ResearchSection.jsx';
 import ContactSection from './components/ContactSection.jsx';
 
 const THEMES = [
-  { id: 'light',     label: 'Light',   icon: '☼', dot: '#2563eb' },
-  { id: 'aurora',    label: 'Aurora',  icon: '✦', dot: '#22d3ee' },
-  { id: 'void',      label: 'Void',    icon: '☀', dot: '#ff6b00' },
-  { id: 'neon',      label: 'Neon',    icon: '◈', dot: '#ff2e9a' },
-  { id: 'arctic',    label: 'Arctic',  icon: '❄', dot: '#00d4ff' },
+  { id: 'light',  label: 'Light',  icon: '☼', dot: '#2563eb' },
+  { id: 'dark',   label: 'Dark',   icon: '☾', dot: '#3b82f6' },
+  { id: 'system', label: 'System', icon: '💻', dot: '#64748b' },
 ];
 
 function SectionRenderer({ id, onNavigate, theme }) {
@@ -23,7 +20,6 @@ function SectionRenderer({ id, onNavigate, theme }) {
     case 'home': return <HomeSection onNavigate={onNavigate} theme={theme} />;
     case 'skills': return <SkillsSection onNavigate={onNavigate} />;
     case 'experience': return <ExperienceSection onNavigate={onNavigate} />;
-    case 'resume': return <ResumeSection onNavigate={onNavigate} />;
     case 'projects': return <ProjectsSection onNavigate={onNavigate} />;
     case 'research': return <ResearchSection onNavigate={onNavigate} />;
     case 'contact': return <ContactSection />;
@@ -35,33 +31,50 @@ export default function App() {
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined') {
       const hash = window.location.hash.replace('#', '');
-      if (['home', 'skills', 'experience', 'projects', 'research', 'resume', 'contact'].includes(hash)) {
+      if (['home', 'skills', 'experience', 'projects', 'research', 'contact'].includes(hash)) {
         return hash;
       }
     }
     return 'home';
   });
+
   const [theme, setTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'void';
+    if (typeof window === 'undefined') return 'system';
     try {
-      if (localStorage.getItem('themeVersion') !== '5') {
-        localStorage.setItem('themeVersion', '5');
-        localStorage.setItem('theme', 'void');
-        return 'void';
+      if (localStorage.getItem('themeVersion') !== '6') {
+        localStorage.setItem('themeVersion', '6');
+        localStorage.setItem('theme', 'system');
+        return 'system';
       }
       const saved = localStorage.getItem('theme');
       if (saved && THEMES.some((t) => t.id === saved)) return saved;
     } catch {
       // storage blocked: fall through to the default
     }
-    return 'void';
+    return 'system';
   });
+
+  const [systemIsDark, setSystemIsDark] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
   const [themeMenuOpen, setThemeMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e) => setSystemIsDark(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
+  const effectiveTheme = theme === 'system' ? (systemIsDark ? 'dark' : 'light') : theme;
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['home', 'skills', 'experience', 'projects', 'research', 'resume', 'contact'].includes(hash)) {
+      if (['home', 'skills', 'experience', 'projects', 'research', 'contact'].includes(hash)) {
         setActiveTab(hash);
       }
     };
@@ -72,8 +85,9 @@ export default function App() {
   useEffect(() => {
     const html = document.documentElement;
     html.classList.add('theme-transition');
-    THEMES.forEach((t) => html.classList.remove(`theme-${t.id}`));
-    html.classList.add(`theme-${theme}`);
+    html.classList.remove('theme-light', 'theme-dark', 'theme-aurora', 'theme-void', 'theme-neon', 'theme-arctic');
+    html.classList.add(`theme-${effectiveTheme}`);
+    html.setAttribute('data-theme', theme);
     try {
       localStorage.setItem('theme', theme);
     } catch {
@@ -81,7 +95,7 @@ export default function App() {
     }
     const t = setTimeout(() => html.classList.remove('theme-transition'), 500);
     return () => clearTimeout(t);
-  }, [theme]);
+  }, [theme, effectiveTheme]);
 
   const switchTab = useCallback((id) => {
     setActiveTab(id);
@@ -126,7 +140,7 @@ export default function App() {
             transition={{ duration: 0.15, ease: 'easeInOut' }}
             className="w-full flex-1 min-h-0 flex flex-col"
           >
-            <SectionRenderer id={activeTab} onNavigate={switchTab} theme={theme} />
+            <SectionRenderer id={activeTab} onNavigate={switchTab} theme={effectiveTheme} />
           </motion.div>
         </AnimatePresence>
       </main>

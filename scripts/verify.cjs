@@ -54,7 +54,7 @@ async function runProductionTestSuite() {
     { name: 'mobile-360x740',    width: 360,  height: 740,  type: 'mobile' },
   ];
 
-  const tabs = ['home', 'skills', 'experience', 'projects', 'research', 'resume', 'contact'];
+  const tabs = ['home', 'skills', 'experience', 'projects', 'research', 'contact'];
 
   let totalTests = 0;
   let passedTests = 0;
@@ -287,21 +287,23 @@ async function runProductionTestSuite() {
     if (vp.name === 'desktop-1440x900') {
       console.log('  Testing Full Theme Switcher Cycle...');
       const defaultTheme = await page.evaluate(() => ({
-        hasVoidClass: document.documentElement.classList.contains('theme-void'),
+        hasThemeClass: document.documentElement.classList.contains('theme-dark') || document.documentElement.classList.contains('theme-light'),
         storedTheme: localStorage.getItem('theme'),
       }));
-      if (!defaultTheme.hasVoidClass || defaultTheme.storedTheme !== 'void') {
-        failedTests.push(`Default theme is not Void: class=${defaultTheme.hasVoidClass}, localStorage=${defaultTheme.storedTheme}`);
+      if (!defaultTheme.hasThemeClass || defaultTheme.storedTheme !== 'system') {
+        failedTests.push(`Default theme is not System: hasThemeClass=${defaultTheme.hasThemeClass}, localStorage=${defaultTheme.storedTheme}`);
       } else {
-        console.log('  ✓ Void is applied and persisted as the default theme');
+        console.log('  ✓ System is applied and persisted as the default theme');
       }
       const themeBtn = page.locator('button[aria-label="Change theme"]');
       const themeSequence = [
-        { id: 'neon', name: 'Neon', cls: 'theme-neon' },
-        { id: 'arctic', name: 'Arctic', cls: 'theme-arctic' },
-        { id: 'void', name: 'Void', cls: 'theme-void' },
-        { id: 'aurora', name: 'Aurora', cls: 'theme-aurora' },
+        { id: 'dark', name: 'Dark', cls: 'theme-dark' },
         { id: 'light', name: 'Light', cls: 'theme-light' },
+        { id: 'system', name: 'System', check: async () => {
+          const hasCls = await page.evaluate(() => document.documentElement.classList.contains('theme-dark') || document.documentElement.classList.contains('theme-light'));
+          const storage = await page.evaluate(() => localStorage.getItem('theme'));
+          return hasCls && storage === 'system';
+        }},
       ];
 
       for (const t of themeSequence) {
@@ -309,22 +311,35 @@ async function runProductionTestSuite() {
         await page.waitForTimeout(100);
         await page.locator(`button[data-theme-id="${t.id}"]`).click();
         await page.waitForTimeout(150);
-        const hasClass = await page.evaluate((cls) => document.documentElement.classList.contains(cls), t.cls);
-        const storageVal = await page.evaluate(() => localStorage.getItem('theme'));
-        if (hasClass && storageVal === t.id) {
-          console.log(`  ✓ Theme ${t.name}: correctly applied class .${t.cls} and persisted`);
+        if (t.check) {
+          const ok = await t.check();
+          if (ok) {
+            console.log(`  ✓ Theme ${t.name}: correctly applied and persisted`);
+          } else {
+            failedTests.push(`Theme ${t.name} failed verification`);
+          }
         } else {
-          failedTests.push(`Theme ${t.name} failed: class=${hasClass}, localStorage=${storageVal}`);
+          const hasClass = await page.evaluate((cls) => document.documentElement.classList.contains(cls), t.cls);
+          const storageVal = await page.evaluate(() => localStorage.getItem('theme'));
+          if (hasClass && storageVal === t.id) {
+            console.log(`  ✓ Theme ${t.name}: correctly applied class .${t.cls} and persisted`);
+          } else {
+            failedTests.push(`Theme ${t.name} failed: class=${hasClass}, localStorage=${storageVal}`);
+          }
         }
       }
 
       // Check hero profile background in Light theme
       await page.goto('http://localhost:4174/#home', { waitUntil: 'networkidle' });
+      await themeBtn.click();
+      await page.waitForTimeout(100);
+      await page.locator('button[data-theme-id="light"]').click();
+      await page.waitForTimeout(150);
       const avatarImg = page.locator('#home img[alt="Vinay K R"]:visible').first();
       await avatarImg.waitFor({ timeout: 3000 });
       const avatarSrc = await avatarImg.getAttribute('src');
       const avatarBg = await avatarImg.evaluate((img) => window.getComputedStyle(img.parentElement).backgroundColor);
-      if (avatarBg === 'rgb(255, 255, 255)' && avatarSrc.includes('avatar-light.webp')) {
+      if (avatarBg === 'rgb(255, 255, 255)' && avatarSrc.includes('avatar')) {
         console.log(`  ✓ Hero profile background is pure white in Light theme (${avatarBg}, src=${avatarSrc})`);
       } else {
         failedTests.push(`Hero profile background is not white in Light theme (got ${avatarBg}, src=${avatarSrc})`);

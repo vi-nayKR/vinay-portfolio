@@ -7,7 +7,6 @@ const desktopTabs = [
   { id: 'experience', label: 'Experience' },
   { id: 'projects', label: 'Projects' },
   { id: 'research', label: 'Research' },
-  { id: 'resume', label: 'Resume' },
 ];
 
 const mobileTabs = [
@@ -57,15 +56,6 @@ const mobileTabs = [
     ),
   },
   {
-    id: 'resume',
-    label: 'Resume',
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>
-    ),
-  },
-  {
     id: 'contact',
     label: 'Contact',
     icon: (
@@ -86,7 +76,7 @@ export default function Navbar({
   themeMenuOpen,
   onToggleThemeMenu,
 }) {
-  const themeId = currentTheme?.id || 'void';
+  const themeId = currentTheme?.id || 'system';
   const isContactActive = activeTab === 'contact';
   const themeContainerRef = useRef(null);
   const [soundActive, setSoundActive] = useState(() => soundService.isEnabled());
@@ -341,7 +331,7 @@ export default function Navbar({
       </div>
 
       <div className="lg:hidden h-12 px-1.5 sm:px-4 border-t" style={{ borderColor: 'var(--border-color)' }}>
-        <div className="grid grid-cols-7 h-full max-w-3xl mx-auto gap-1 items-center" aria-label="Primary navigation">
+        <div className="grid grid-cols-6 h-full max-w-3xl mx-auto gap-1 items-center" aria-label="Primary navigation">
           {mobileTabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (

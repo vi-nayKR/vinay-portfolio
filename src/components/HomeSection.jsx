@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { heroData } from '../data/hero.js';
 
 export default function HomeSection({ onNavigate, theme }) {
-  const isLight = theme === 'light' || theme === 'cat-light';
+  const isLight = theme === 'light';
   return (
     <div id="home" className="grid-bg relative w-full flex-1 flex flex-col items-center justify-start px-4 sm:px-6 md:px-8 pt-3 sm:pt-6 md:pt-8 pb-3 sm:pb-6 min-h-0 overflow-hidden [@media(max-height:800px)]:pt-2 [@media(max-height:800px)]:pb-2">
       {/* Ambient accent glow */}
@@ -46,20 +46,20 @@ export default function HomeSection({ onNavigate, theme }) {
                 </span>
               ))
             )}
-            {/* Black-and-white cut-out on black; the frame, brackets and glow carry the theme colour. */}
+            {/* Avatar frame */}
             <div
-              className="relative m-1.5 sm:m-2 overflow-hidden"
+              className="relative m-1.5 sm:m-2 overflow-hidden rounded-sm"
               style={{
-                background: isLight ? 'var(--bg-surface, #ffffff)' : '#000000',
+                background: isLight ? '#ffffff' : '#000000',
                 isolation: 'isolate',
                 boxShadow: '0 0 40px color-mix(in srgb, var(--accent) 22%, transparent)',
               }}
             >
               <img
-                src={isLight ? '/images/avatar-light.webp' : '/images/avatar.webp'}
+                src="/images/avatar.png"
                 alt="Vinay K R"
-                width="560"
-                height="489"
+                width="500"
+                height="500"
                 className="w-full h-auto block"
               />
             </div>
@@ -123,37 +123,6 @@ export default function HomeSection({ onNavigate, theme }) {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
             Get in Touch
           </button>
-          <button
-            onClick={() => onNavigate('resume')}
-            className="px-4 sm:px-5 py-2 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm tracking-wide transition-all duration-300 hover:scale-105 border flex items-center justify-center gap-2 cursor-pointer"
-            style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-muted)', background: 'var(--border-subtle)' }}
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-            View Resume
-          </button>
-        </motion.div>
-
-        {/* Tech stack */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="w-full"
-        >
-          <p className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.18em] sm:tracking-[0.2em] mb-2 sm:mb-4 [@media(max-height:800px)]:mb-2" style={{ color: 'var(--text-muted)' }}>
-            Core Technologies &amp; Frameworks
-          </p>
-          <div className="flex flex-wrap gap-1.5 sm:gap-2.5 justify-center max-w-3xl mx-auto">
-            {heroData.techs.map((t) => (
-              <span
-                key={t}
-                className="px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg text-[11px] sm:text-[13px] font-mono tracking-wide transition-all duration-200 hover:scale-105"
-                style={{ background: 'var(--card-bg)', color: 'var(--accent)', border: '1px solid var(--border-color)' }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
         </motion.div>
       </div>
     </div>

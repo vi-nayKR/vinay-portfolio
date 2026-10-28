@@ -214,11 +214,11 @@ export default function ResearchSection({ onNavigate }) {
         {onNavigate && (
           <div className="text-center mt-2.5 shrink-0">
             <button
-              onClick={() => onNavigate('resume')}
+              onClick={() => onNavigate('contact')}
               className="inline-flex items-center gap-2 text-xs font-mono transition-all duration-200 hover:gap-3 cursor-pointer py-1 px-3 rounded-xl border border-transparent hover:border-[var(--border-color)]"
               style={{ color: 'var(--accent)' }}
             >
-              Next: View Interactive Resume →
+              Next: Get in Touch →
             </button>
           </div>
         )}
