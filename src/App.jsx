@@ -59,8 +59,6 @@ export default function App() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  const [themeMenuOpen, setThemeMenuOpen] = useState(false);
-
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const mql = window.matchMedia('(prefers-color-scheme: dark)');
@@ -102,11 +100,6 @@ export default function App() {
     if (typeof window !== 'undefined') {
       window.location.hash = id;
     }
-    setThemeMenuOpen(false);
-  }, []);
-
-  const toggleThemeMenu = useCallback((val) => {
-    setThemeMenuOpen((m) => (typeof val === 'boolean' ? val : !m));
   }, []);
 
   const currentTheme = THEMES.find((t) => t.id === theme) || THEMES[0];
@@ -119,8 +112,6 @@ export default function App() {
         currentTheme={currentTheme}
         themes={THEMES}
         onThemeChange={setTheme}
-        themeMenuOpen={themeMenuOpen}
-        onToggleThemeMenu={toggleThemeMenu}
       />
 
       <main

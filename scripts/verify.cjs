@@ -295,7 +295,6 @@ async function runProductionTestSuite() {
       } else {
         console.log('  ✓ System is applied and persisted as the default theme');
       }
-      const themeBtn = page.locator('button[aria-label="Change theme"]');
       const themeSequence = [
         { id: 'dark', name: 'Dark', cls: 'theme-dark' },
         { id: 'light', name: 'Light', cls: 'theme-light' },
@@ -307,8 +306,6 @@ async function runProductionTestSuite() {
       ];
 
       for (const t of themeSequence) {
-        await themeBtn.click();
-        await page.waitForTimeout(100);
         await page.locator(`button[data-theme-id="${t.id}"]`).click();
         await page.waitForTimeout(150);
         if (t.check) {
@@ -331,8 +328,6 @@ async function runProductionTestSuite() {
 
       // Check hero profile background in Light theme
       await page.goto('http://localhost:4174/#home', { waitUntil: 'networkidle' });
-      await themeBtn.click();
-      await page.waitForTimeout(100);
       await page.locator('button[data-theme-id="light"]').click();
       await page.waitForTimeout(150);
       const avatarImg = page.locator('#home img[alt="Vinay K R"]:visible').first();

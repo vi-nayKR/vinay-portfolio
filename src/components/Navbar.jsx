@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { soundService } from '../services/soundService.js';
 
 const desktopTabs = [
@@ -67,18 +67,33 @@ const mobileTabs = [
 ];
 
 
+const themeIcons = {
+  light: (
+    <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+  ),
+  dark: (
+    <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    </svg>
+  ),
+  system: (
+    <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+  ),
+};
+
 export default function Navbar({
   activeTab,
   onTabChange,
   currentTheme,
   themes,
   onThemeChange,
-  themeMenuOpen,
-  onToggleThemeMenu,
 }) {
   const themeId = currentTheme?.id || 'system';
   const isContactActive = activeTab === 'contact';
-  const themeContainerRef = useRef(null);
   const [soundActive, setSoundActive] = useState(() => soundService.isEnabled());
 
   useEffect(() => {
@@ -88,37 +103,6 @@ export default function Navbar({
   const handleSoundToggle = () => {
     const next = soundService.toggleSound();
     setSoundActive(next);
-  };
-
-  // Close menus on click outside or Escape key
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (themeMenuOpen && themeContainerRef.current && !themeContainerRef.current.contains(event.target)) {
-        onToggleThemeMenu(false);
-      }
-    }
-
-    function handleKeyDown(event) {
-      if (event.key === 'Escape') {
-        if (themeMenuOpen) onToggleThemeMenu(false);
-      }
-    }
-
-    if (themeMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('touchstart', handleClickOutside);
-      document.addEventListener('keydown', handleKeyDown);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [themeMenuOpen, onToggleThemeMenu]);
-
-  const handleToggleTheme = () => {
-    onToggleThemeMenu();
   };
 
   return (
@@ -210,96 +194,45 @@ export default function Navbar({
             )}
           </button>
 
-          {/* Theme selector */}
-          <div ref={themeContainerRef} className="relative">
-            <button
-              onClick={handleToggleTheme}
-              className="p-1.5 sm:p-2 rounded-xl border flex items-center justify-center gap-1.5 transition-all duration-200 hover:border-[var(--accent)] hover:scale-105 cursor-pointer"
-              style={{
-                borderColor: themeMenuOpen ? 'var(--accent)' : 'var(--border-color)',
-                color: themeMenuOpen ? 'var(--text-primary)' : 'var(--text-muted)',
-                background: 'color-mix(in srgb, var(--bg-surface) 75%, transparent)',
-                boxShadow: themeMenuOpen ? '0 0 12px color-mix(in srgb, var(--accent) 25%, transparent)' : undefined,
-              }}
-              aria-label="Change theme"
-              aria-expanded={themeMenuOpen}
-              title={`Theme: ${currentTheme?.label || 'Light'} (click to change)`}
-            >
-              <span
-                className="w-3 h-3 rounded-full shrink-0 border border-white/20 transition-all duration-300"
-                style={{
-                  background: currentTheme?.dot || 'var(--accent)',
-                  boxShadow: `0 0 8px ${currentTheme?.dot || 'var(--accent)'}`,
-                }}
-              />
-              <svg
-                className={`w-3 h-3 text-[var(--text-muted)] transition-transform duration-200 ${
-                  themeMenuOpen ? 'rotate-180 text-[var(--accent)]' : ''
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            {/* Floating theme dropdown popover */}
-            {themeMenuOpen && (
-              <div
-                className="absolute right-0 top-full mt-2.5 py-1.5 px-1.5 rounded-2xl border shadow-2xl min-w-[170px] z-50 glass-card animate-in fade-in slide-in-from-top-2 duration-150"
-                style={{
-                  background: 'var(--bg-surface)',
-                  borderColor: 'var(--border-color)',
-                  boxShadow: '0 16px 40px rgba(0,0,0,0.5)',
-                }}
-              >
-                <div className="p-1 space-y-1">
-                  {themes.map((t) => {
-                    const isSelected = themeId === t.id;
-                    return (
-                      <button
-                        key={t.id}
-                        data-theme-id={t.id}
-                        onClick={() => {
-                          onThemeChange(t.id);
-                          onToggleThemeMenu(false);
-                        }}
-                        className={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-xs sm:text-sm transition-all rounded-xl cursor-pointer ${
-                          isSelected ? 'font-semibold' : 'hover:bg-[var(--border-subtle)]'
-                        }`}
-                        style={{
-                          color: isSelected ? 'var(--text-primary)' : 'var(--text-muted)',
-                          background: isSelected
-                            ? 'color-mix(in srgb, var(--accent) 14%, transparent)'
-                            : undefined,
-                        }}
-                      >
-                        <span
-                          className="w-3 h-3 rounded-full shrink-0 border border-white/20"
-                          style={{
-                            background: t.dot,
-                            boxShadow: isSelected ? `0 0 10px ${t.dot}` : undefined,
-                          }}
-                        />
-                        <span className="flex-1 font-medium">{t.label}</span>
-                        {isSelected && (
-                          <svg
-                            className="w-4 h-4 shrink-0"
-                            style={{ color: t.dot }}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                          </svg>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+          {/* Horizontal Theme Selector */}
+          <div
+            className="flex items-center gap-0.5 p-0.5 sm:p-1 rounded-xl border"
+            style={{
+              borderColor: 'var(--border-color)',
+              background: 'color-mix(in srgb, var(--bg-surface) 75%, transparent)',
+            }}
+            role="group"
+            aria-label="Theme selection"
+          >
+            {themes.map((t) => {
+              const isSelected = themeId === t.id;
+              return (
+                <button
+                  key={t.id}
+                  data-theme-id={t.id}
+                  onClick={() => onThemeChange(t.id)}
+                  className={`p-1.5 sm:p-2 rounded-lg transition-all duration-200 cursor-pointer flex items-center justify-center ${
+                    isSelected
+                      ? 'shadow-xs font-semibold'
+                      : 'hover:text-[var(--text-primary)] hover:bg-[var(--border-subtle)]'
+                  }`}
+                  style={
+                    isSelected
+                      ? {
+                          color: 'var(--accent)',
+                          background: 'color-mix(in srgb, var(--accent) 15%, transparent)',
+                          boxShadow: '0 0 10px color-mix(in srgb, var(--accent) 20%, transparent)',
+                        }
+                      : { color: 'var(--text-muted)' }
+                  }
+                  title={`${t.label} theme`}
+                  aria-label={`Switch to ${t.label} theme`}
+                  aria-pressed={isSelected}
+                >
+                  {themeIcons[t.id] || t.icon}
+                </button>
+              );
+            })}
           </div>
 
           {/* Connect button — visible on sm+ screens */}
